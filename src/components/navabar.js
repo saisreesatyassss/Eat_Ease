@@ -14,8 +14,8 @@ export const navLinks = [
     title: "EatClips",
   },
   {
-    id: "product",
-    title: "Restaurant",
+    id: "restaurants",
+    title: "Restaurants",
   },
   {
     id: "contact", 

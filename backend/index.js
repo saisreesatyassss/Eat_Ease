@@ -32,6 +32,38 @@ connectToMongoDB().then(() => {
 
 // Handle GET request to fetch data from the "restaurant" collection
 // Handle GET request to fetch data from the "restaurant" collection
+// app.get('/api/eat_ease/restaurants', async (req, res) => {
+//   try {
+//     // Check if the database is connected
+//     if (database) {
+//       let query = {};
+
+//       // Check if 'id' parameter is present
+//       if (req.query.id) {
+//         query._id = req.query.id;
+//       }
+
+//       // Check if 'name' parameter is present
+//       if (req.query.name) {
+//         query.name = req.query.name;
+//       }
+
+//       // Check if 'age' parameter is present
+//       if (req.query.age) {
+//         query.age = req.query.age;
+//       }
+
+//       const result = await database.collection("restaurants").find(query).toArray();
+//       res.json(result);
+//     } else {
+//       res.status(500).send("Database not connected");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching data from MongoDB:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+// Handle GET request to fetch data from the "restaurants" collection
 app.get('/api/eat_ease/restaurants', async (req, res) => {
   try {
     // Check if the database is connected
@@ -40,7 +72,7 @@ app.get('/api/eat_ease/restaurants', async (req, res) => {
 
       // Check if 'id' parameter is present
       if (req.query.id) {
-        query._id = req.query.id;
+        query._id = ObjectId(req.query.id); // Convert string to ObjectId
       }
 
       // Check if 'name' parameter is present
@@ -48,31 +80,23 @@ app.get('/api/eat_ease/restaurants', async (req, res) => {
         query.name = req.query.name;
       }
 
-      // Check if 'age' parameter is present
-      if (req.query.age) {
-        query.age = req.query.age;
-      }
-
       const result = await database.collection("restaurants").find(query).toArray();
       res.json(result);
     } else {
-      res.status(500).send("Database not connected");
+      res.status(500).send('Database not connected');
     }
   } catch (error) {
-    console.error("Error fetching data from MongoDB:", error);
-    res.status(500).send("Internal Server Error");
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
-
 
 // Handle POST request to insert data into the "restaurant" collection
 app.post('/api/eat_ease/restaurants', async (req, res) => {
   try {
     // Check if the database is connected
     if (database) {
-      const result = await database.collection("restaurants").insertOne(req.body);
-      // console.log(result);
-      
+      const result = await database.collection("restaurants").insertOne(req.body);  
       res.json(result);
     } else {
       res.status(500).send("Database not connected");
@@ -155,6 +179,8 @@ app.put('/api/eat_ease/restaurants/:id', async (req, res) => {
         res.status(404).json({ message: "Item not found" });
       }
     } else {
+        console.error('Error fetching data from MongoDB:', error);
+        res.status(500).send('Internal Server Error');
       res.status(500).send("Database not connected");
     }
   } catch (error) {
@@ -162,3 +188,76 @@ app.put('/api/eat_ease/restaurants/:id', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+ 
+
+app.get('/api/eat_ease/menus/:restaurant_id', async (req, res) => {
+  try {
+    // Check if the database is connected
+    if (database) {
+      const restaurantId = req.params.restaurant_id;
+
+      let query = {};
+
+      // Check if 'restaurant_id' parameter is present
+      if (restaurantId) {
+        query.restaurant_id = restaurantId;
+      }
+
+      const result = await database.collection("menus").find(query).toArray();
+      res.json(result);
+    } else {
+      res.status(500).send('Database not connected');
+    }
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.get('/api/eat_ease/menus', async (req, res) => {
+  try {
+    // Check if the database is connected
+    if (database) {
+      let query = {};
+
+      // Check if 'id' parameter is present
+      if (req.query.id) {
+        query._id = ObjectId(req.query.id); // Convert string to ObjectId
+      }
+
+      // Check if 'restaurant_id' parameter is present
+      if (req.query.restaurant_id) {
+        query.restaurant_id = req.query.restaurant_id;
+      }
+
+      const result = await database.collection("menus").find(query).toArray();
+      res.json(result);
+    } else {
+      res.status(500).send('Database not connected');
+    }
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+// Handle POST request to insert data into the "restaurant" collection
+app.post('/api/eat_ease/menus', async (req, res) => {
+  try {
+    // Check if the database is connected
+    if (database) {
+      const result = await database.collection("menus").insertOne(req.body);  
+      res.json(result);
+    } else {
+      res.status(500).send("Database not connected");
+    }
+  } catch (error) {
+    console.error("Error inserting data into MongoDB:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+ 
