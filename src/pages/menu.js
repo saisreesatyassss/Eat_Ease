@@ -5,14 +5,14 @@ import Cart from './cart';
 
 
 function Menu() {
-  const { restaurantId } = useParams();
+  const { restaurant_id } = useParams();
   const [menuItems, setMenuItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurantId}`);
+        const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurant_id}`);
         const data = await response.json();
         console.error('Full response:', data);
 
@@ -24,10 +24,31 @@ function Menu() {
     };
 
     fetchMenuData();
-  }, [restaurantId]);
-  const addToCart = (menuItem) => {
-    setCartItems((prevItems) => [...prevItems, menuItem]);
-    
+  }, [restaurant_id]);
+  const addToCart = async (menuItem) => {
+    try {
+      const response = await fetch('http://localhost:2000/api/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          restaurant_id,
+          menuItem,
+        }),
+      });
+
+      const result = await response.json();
+
+      // Check if the response contains an error message
+      if (response.status === 400) {
+        window.alert(result.error); // Display the error message in a pop-up
+      } else {
+        console.log('Item added to cart:', result);
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
   return (
     <div>
@@ -66,9 +87,8 @@ function Menu() {
             ))}
           </ul>
         </div>
-      ))}
-            <Cart cartItems={cartItems} />
-
+      ))} 
+      {/* <Cart cartItems={cartItems} /> */}
       <Link to="/cart">View Cart</Link>
 
       <p>Hello, this is the menu page for the restaurant.</p>
@@ -84,13 +104,13 @@ export default Menu;
 // import axios from 'axios';
 
 // function Menu() {
-//   const { restaurantId } = useParams();
+//   const { restaurant_id } = useParams();
 //   const [menuItems, setMenuItems] = useState([]);
 
 //   useEffect(() => {
 //     const fetchMenuData = async () => {
 //       try {
-//         const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurantId}`);
+//         const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurant_id}`);
 //         const data = await response.json();
 
 //         setMenuItems(data);
@@ -101,7 +121,7 @@ export default Menu;
 //     };
 
 //     fetchMenuData();
-//   }, [restaurantId]);
+//   }, [restaurant_id]);
 
 //   const updateMenuData = async () => {
 //     try { 
@@ -177,7 +197,7 @@ export default Menu;
  
 //       // Make a POST request to update the menu data
 //       const response = await axios.post(`http://localhost:2000/api/eat_ease/menus`, {
-//         restaurant_id: restaurantId,
+//         restaurant_id: restaurant_id,
 //         menuData: menu,
 //       });
 

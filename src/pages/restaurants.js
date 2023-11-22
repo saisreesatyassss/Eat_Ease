@@ -22,9 +22,9 @@ function Restaurants() {
 
   const [maxDistance, setMaxDistance] = useState(null);
   const navigate = useNavigate();
-  const handleViewMenu = (restaurantId) => {
+  const handleViewMenu = (restaurant_id) => {
     // Use navigate to redirect to the menu page
-    navigate(`/menus/${restaurantId}`);
+    navigate(`/menus/${restaurant_id}`);
   };
 
 

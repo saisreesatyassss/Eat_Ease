@@ -27,7 +27,7 @@ function App() {
       <Route path="/contact" element={<Contact/>} />   
       <Route path="/eatclips" element={<EatClips/>} />   
       <Route path="/restaurants" element={<Restaurants/>} />   
-      <Route path="/menus/:restaurantId" element={<Menu />} />
+      <Route path="/menus/:restaurant_id" element={<Menu />} />
       <Route path="/cart" element={<Cart/>} />
 
     </Routes>
