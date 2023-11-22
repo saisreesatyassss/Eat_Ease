@@ -12,7 +12,7 @@ function Menu() {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurant_id}`);
+        const response = await fetch(`https://eat-ease-62d8.onrender.com/api/eat_ease/menus/${restaurant_id}`);
         const data = await response.json();
         console.error('Full response:', data);
 
@@ -27,7 +27,7 @@ function Menu() {
   }, [restaurant_id]);
   const addToCart = async (menuItem) => {
     try {
-      const response = await fetch('http://localhost:2000/api/cart/add', {
+      const response = await fetch('https://eat-ease-62d8.onrender.com/api/cart/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,47 +51,68 @@ function Menu() {
     }
   };
   return (
-    <div>
+    <div className='p-8'>
       <h2 className="text-xl font-bold mb-4 h- ">Menu</h2>
 
-      {menuItems.map((item) => (
-        <div key={item._id} className="mb-8 p-4 border border-black rounded-md">
-          <h3 className="text-lg font-semibold mb-2">{item.restaurant_id}</h3>
-          <ul>
-            {item.menuData.map((category) => (
-              <li key={category.category} className="mb-4">
-                <h4 className="text-md font-semibold mb-2">{category.category}</h4>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {category.items.map((menuItem) => (
-                    <div key={menuItem.name} className="border p-4 rounded-md bg-white">
-                    <img
-                          src={menuItem.photo_url}
-                          alt="menu"
-                          className="w-[200px] h-[200px] object-contain"
-                        />
-                      <h5 className="text-sm font-semibold mb-1">{menuItem.name}</h5>
-                      <p className="text-xs text-gray-500 mb-2">${menuItem.price}</p>
-                      <p className="text-xs text-gray-500 mb-2">{menuItem.rating}</p>    
-                      <p className="text-sm">{menuItem.description}</p>
-                        {menuItem.isNonVeg ? (
-                        <span className="text-red-500">&#8226; nonveg</span>
-                      ) : (
-                        <span className="text-green-500">&#8226; veg</span>
-                      )}
-                    <button onClick={() => addToCart(menuItem)}>Add to Cart</button>
+     {menuItems.map((item) => (
+  <div key={item._id} className="mb-8 p-8 border border-black rounded-md">
+    <h3 className="text-lg  flex items-center justify-center font-semibold mb-2">{item.restaurant_id}</h3>
+    <ul>
+      {item.menuData.map((category) => (
+        <li key={category.category} className="mb-4 ">
+          <h4 className="text-md font-semibold mb-2">{category.category}</h4>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {category.items.map((menuItem) => (
+            <div key={menuItem.name} className="border p-4 rounded-md bg-gradient-to-br from-gray-100 to-gray-200">
+  <img
+    src={menuItem.photo_url}
+    alt="menu"
+    className="w-[200px] h-[200px] object-cover rounded-md mb-2"
+  />
+  <h5 className="text-lg font-semibold mb-1">{menuItem.name}</h5>
+  <p className="text-sm text-gray-700 mb-2">${menuItem.price}</p>
+  <p className="text-sm text-gray-700 mb-2">{menuItem.rating} Stars</p>
+  <p className="text-sm text-gray-600 mb-4">{menuItem.description}</p>
+  {menuItem.isNonVeg ? (
+    <span className="text-red-500">&#8226; Non-veg</span>
+  ) : (
+    <span className="text-green-500">&#8226; Veg</span>
+  )}
+  <button
+    onClick={() => addToCart(menuItem)}
+    className="bg-blue-500 text-white px-4 py-2 rounded-full mt-2 hover:bg-blue-600 flex items-center"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className="h-5 w-5 mr-2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+      />
+    </svg>
+    Add to Cart
+  </button>
+</div>
 
-                    </div>
-                  ))}
-                </div>
-              </li>
             ))}
-          </ul>
-        </div>
-      ))} 
-      {/* <Cart cartItems={cartItems} /> */}
-      <Link to="/cart">View Cart</Link>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+))}
 
-      <p>Hello, this is the menu page for the restaurant.</p>
+<Link to="/cart" className="inline-block bg-red-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-blue-600">
+  View Cart
+</Link>
+
+      {/* <p>Hello, this is the menu page for the restaurant.</p> */}
     </div>
   );
 }
@@ -110,7 +131,7 @@ export default Menu;
 //   useEffect(() => {
 //     const fetchMenuData = async () => {
 //       try {
-//         const response = await fetch(`http://localhost:2000/api/eat_ease/menus/${restaurant_id}`);
+//         const response = await fetch(`https://eat-ease-62d8.onrender.com/api/eat_ease/menus/${restaurant_id}`);
 //         const data = await response.json();
 
 //         setMenuItems(data);
@@ -196,7 +217,7 @@ export default Menu;
 // ;
  
 //       // Make a POST request to update the menu data
-//       const response = await axios.post(`http://localhost:2000/api/eat_ease/menus`, {
+//       const response = await axios.post(`https://eat-ease-62d8.onrender.com/api/eat_ease/menus`, {
 //         restaurant_id: restaurant_id,
 //         menuData: menu,
 //       });

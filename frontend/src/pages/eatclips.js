@@ -17,7 +17,7 @@ const EatClips = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:2000/api/eat_ease/eatclips');
+      const response = await axios.get('https://eat-ease-62d8.onrender.com/api/eat_ease/eatclips');
       setEatClips(response.data);
     } catch (error) {
       console.error('Error fetching EatClips:', error);
@@ -48,7 +48,7 @@ const EatClips = () => {
       formData.append('description', newClip.description);
 
 
-      const response = await axios.post('http://localhost:2000/api/eat_ease/eatclips', formData, {
+      const response = await axios.post('https://eat-ease-62d8.onrender.com/api/eat_ease/eatclips', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -71,7 +71,7 @@ const EatClips = () => {
 
   const handleDeleteClip = async (id) => {
     try {
-      await axios.delete(`http://localhost:2000/api/eat_ease/eatclips/${id}`);
+      await axios.delete(`https://eat-ease-62d8.onrender.com/api/eat_ease/eatclips/${id}`);
       fetchData();
     } catch (error) {
       console.error('Error deleting EatClip:', error);
@@ -109,8 +109,9 @@ const EatClips = () => {
   <h4>{clip.title}</h4>
 <p>{clip.videoUrl}</p>
 <p>{clip.description}</p>
+<p>{`${process.env.PUBLIC_URL+clip.videoUrl.replace(/\\/g, '/').replace('https://eat-ease-62d8.onrender.com/public/uploads/', '')}`}</p>
   <video
-    src={`${process.env.PUBLIC_URL+'/uploads/' +clip.videoUrl.replace(/\\/g, '/').replace('http://localhost:2000/public/uploads/', '')}`}
+    src={`${process.env.PUBLIC_URL+clip.videoUrl.replace(/\\/g, '/').replace('https://eat-ease-62d8.onrender.com/public/uploads/', '')}`}
     controls
     width="500"
     height="800"

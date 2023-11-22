@@ -10,7 +10,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: aquamarine;
+/* Your original background color */
+background-color: transparent;
+
+ 
   /* color: #2d3748; */
 }
 

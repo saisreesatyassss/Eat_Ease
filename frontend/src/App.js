@@ -20,7 +20,6 @@ function App() {
     <Router>
         <div>
         <Navbar/>
-   
      <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/profile" element={<Profile/>} />   

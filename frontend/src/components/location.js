@@ -62,33 +62,39 @@ const handleLocationSearch = () => {
   }, [location]);
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <input
-          type="text"
-          placeholder="Enter your address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          style={{ marginRight: '10px', padding: '5px' }}
-        />
-        <button onClick={handleLocationSearch}>
-          <span role="img" aria-label="Location icon">
-            📍
-          </span>
-        </button>
-      </div>
+   <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500  p-6 rounded-md shadow-md text-black">
+  <div className="flex items-center bg-white mb-4 shadow-lg p-2 py-3  flex-center flex-center    transform hover:scale-105 transition-transform duration-300 justify-center rounded-2xl">
+    <input
+      type="text"
+      placeholder="Enter your address"
+      value={address}
+      onChange={(e) => setAddress(e.target.value)}
+      className="mr-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300 text-black"
+    />
+    <button
+      onClick={handleLocationSearch}
+      className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-300 focus:outline-none focus:ring focus:border-blue-300"
+    >
+      <span role="img" aria-label="Tick icon" className="text-white mr-1 ">
+         ✓
+      </span>
+      OK
+    </button>
+  </div>
 
-      {location ? (
-        <div>
-          <h2>Your Current Location:</h2>
-          <p>Latitude: {location.latitude}</p>
-          <p>Longitude: {location.longitude}</p>
-          {address && <p>Address: {address}</p>}
-        </div>
-      ) : (
-        <p>Click the location icon to find your current location.</p>
-      )}
+  {location ? (
+    <div>
+      <h2 className="text-xl font-semibold mb-2">Your Current Location:</h2>
+      <p>Latitude: {location.latitude}</p>
+      <p>Longitude: {location.longitude}</p>
+      {address && <p className="mt-2">Address: {address}</p>}
     </div>
+  ) : (
+    <p className="text-gray-600">Click the location icon to find your current location.</p>
+  )}
+</div>
+
+
   );
 };
 

@@ -1,0 +1,33 @@
+/* Navbar.css */
+
+.btn-3d {
+  background: linear-gradient(135deg, #ffed4a, #ff8c00, #ff4500); /* Gradient from yellow to orange to red */
+  color: #fff; /* Text color */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn-3d:hover {
+  background: linear-gradient(135deg, #ff4500, #ff8c00, #ffed4a); /* Gradient for hover state */
+  transform: translateY(-2px); /* Add a slight lift on hover for button effect */
+}
+/* Navbar.css */
+
+.btn-3d-mobile {
+  width: 200px; /* Set a fixed width for mobile buttons */
+  background: linear-gradient(135deg, #ffed4a, #ff8c00, #ff4500);
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn-3d-mobile:hover {
+  background: linear-gradient(135deg, #ff4500, #ff8c00, #ffed4a);
+  transform: translateY(-2px);
+}

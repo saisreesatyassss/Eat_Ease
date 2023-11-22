@@ -27,8 +27,8 @@ async function connectToMongoDB() {
 
 // Use the async function to connect before starting the server
 // connectToMongoDB().then(() => {
-//   app.listen(2000, () => {
-//     console.log('Server listening on port 2000');
+//   app.listen(5000, () => {
+//     console.log('Server listening on port 5000');
 //   });
 // });
 
@@ -138,6 +138,12 @@ app.post('/api/eat_ease/restaurants', async (req, res) => {
   try {
     console.log("Received DELETE request for item with ID:", req.params.id);
 
+    // Check if the provided ID is a valid ObjectId
+    if (!ObjectId.isValid(req.params.id)) {
+      console.error("Invalid ObjectId format");
+      return res.status(400).json({ message: "Invalid ObjectId format" });
+    }
+
     // Check if the database is connected
     if (database) {
       const result = await database.collection("restaurants").deleteOne({ _id: new ObjectId(req.params.id) });
@@ -157,20 +163,54 @@ app.post('/api/eat_ease/restaurants', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+
+// // Handle PUT request to update data in the "restaurant" collection by ID
+// app.put('/api/eat_ease/restaurants/:id', async (req, res) => {
+//   try {
+//     console.log("Received PUT request for item with ID:", req.params.id);
+
+//     // Check if the database is connected
+//     if (database) {
+//       const result = await database.collection("restaurants").updateOne(
+//         { _id: new ObjectId(req.params.id) },
+//         { $set: req.body }
+//       );
+//       console.log("Update result:", result);
+
+//       // Check if any document was modified
+//       if (result.modifiedCount > 0) {
+//         res.json({ message: "Item updated successfully" });
+//       } else {
+//         res.status(404).json({ message: "Item not found" });
+//       }
+//     } else {
+//         console.error('Error fetching data from MongoDB:', error);
+//         res.status(500).send('Internal Server Error');
+//       res.status(500).send("Database not connected");
+//     }
+//   } catch (error) {
+//     console.error("Error updating data in MongoDB:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
  
 
-
-
-// Handle PUT request to update data in the "restaurant" collection by ID
 app.put('/api/eat_ease/restaurants/:id', async (req, res) => {
   try {
     console.log("Received PUT request for item with ID:", req.params.id);
 
     // Check if the database is connected
     if (database) {
+      // Create a new object with the fields to update
+      const updatedData = { ...req.body };
+      delete updatedData._id; // Exclude _id from the update
+
       const result = await database.collection("restaurants").updateOne(
         { _id: new ObjectId(req.params.id) },
-        { $set: req.body }
+        { $set: updatedData }
       );
       console.log("Update result:", result);
 
@@ -181,17 +221,14 @@ app.put('/api/eat_ease/restaurants/:id', async (req, res) => {
         res.status(404).json({ message: "Item not found" });
       }
     } else {
-        console.error('Error fetching data from MongoDB:', error);
-        res.status(500).send('Internal Server Error');
-      res.status(500).send("Database not connected");
+      console.error('Error fetching data from MongoDB:', error);
+      res.status(500).send('Internal Server Error');
     }
   } catch (error) {
     console.error("Error updating data in MongoDB:", error);
     res.status(500).send("Internal Server Error");
   }
 });
-
-
 
  // Handle GET request to retrieve data from the "restaurant" collection by ID
 app.get('/api/eat_ease/restaurants/:id', async (req, res) => {
@@ -507,7 +544,7 @@ app.get('/api/eat_ease/eatclips', async (req, res) => {
         _id: clip._id,
         title: clip.title,
         description: clip.description,
-        videoUrl: `http://localhost:2000/${clip.videoUrl}`, // Update the URL
+        videoUrl: `https://eat-ease-62d8.onrender.com/${clip.videoUrl}`, // Update the URL
       }));
 
       res.json(updatedResult);
@@ -617,6 +654,6 @@ app.delete('/api/eat_ease/eatclips/:id', async (req, res) => {
 // Use the async function to connect before starting the server
 connectToMongoDB().then(() => {
   app.listen(5000, () => {
-    console.log('Server listening on port 2000');
+    console.log('Server listening on port 5000');
   });
 });

@@ -6,8 +6,8 @@
 //   useEffect(() => {
 //     const fetchCartData = async () => {
 //       try {
-//         // Replace 'http://localhost:2000' with your actual API endpoint
-//         const response = await fetch('http://localhost:2000/api/eat_ease/carts'); // Assuming this endpoint returns the cart data
+//         // Replace 'https://eat-ease-62d8.onrender.com' with your actual API endpoint
+//         const response = await fetch('https://eat-ease-62d8.onrender.com/api/eat_ease/carts'); // Assuming this endpoint returns the cart data
 //         const data = await response.json();
 
 //         console.log('Cart data:', data);
@@ -54,7 +54,7 @@ function Cart() {
 
  const fetchCartData = async () => {
       try {
-        const response = await fetch('http://localhost:2000/api/eat_ease/carts');
+        const response = await fetch('https://eat-ease-62d8.onrender.com/api/eat_ease/carts');
         const data = await response.json();
 
         console.log('Cart data:', data);
@@ -70,7 +70,7 @@ function Cart() {
 
   const fetchRestaurantDetails = async (restaurant_id) => {
     try {
-      const response = await fetch(`http://localhost:2000/api/eat_ease/restaurants/${restaurant_id}`);
+      const response = await fetch(`https://eat-ease-62d8.onrender.com/api/eat_ease/restaurants/${restaurant_id}`);
       const data = await response.json();
 
       return data || {}; // Return an empty object if data is null
@@ -83,7 +83,7 @@ function Cart() {
 
 const handleDeleteItem = async (cartId, itemId) => {
   try {
-    const response = await fetch(`http://localhost:2000/api/eat_ease/carts/delete`, {
+    const response = await fetch(`https://eat-ease-62d8.onrender.com/api/eat_ease/carts/delete`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const handleDeleteItem = async (cartId, itemId) => {
 };
 const handleDeleteRestaurant = async (cartId) => {
   try {
-    const response = await fetch(`http://localhost:2000/api/eat_ease/carts/remove`, {
+    const response = await fetch(`https://eat-ease-62d8.onrender.com/api/eat_ease/carts/remove`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -136,38 +136,57 @@ const handleDeleteRestaurant = async (cartId) => {
 }, [cartData]);
 
 return (
-  <div>
-    <h2>Shopping Cart</h2>
-    {restaurantDetails.length > 0 &&
-      restaurantDetails.map((restaurant, index) => (
-        <div key={index}>
-          <h3>{restaurant.name}</h3>
-          
-          <img
-            src={restaurant.photo_url}
-            alt={restaurant.name}
-            style={{ width: '100px', height: '100px' }}
-          />
-          <ul>
-            {cartData
-              .filter((cartItem) => cartItem.restaurant_id === restaurant._id)
-              .flatMap((cartItem) =>
-                cartItem.cartItems.map((item, index) => (
-                  <li key={index}>
-                  <button onClick={() => handleDeleteRestaurant(cartItem._id)}>
-                      Delete
-                    </button> 
+ <div className="grid grid-cols-1 gap-4 ">
+  <h2 className="text-2xl font-bold mb-4 text-gray-800">Shopping Cart</h2>
+  {restaurantDetails.length > 0 &&
+    restaurantDetails.map((restaurant, index) => (
+      <div key={index} className="bg-white p-4 rounded-md shadow-md backdrop-filter backdrop-blur-md border border-gray-300">
+        <h3 className="text-lg font-semibold mb-2 text-blue-700">{restaurant.name}</h3>
+        <img
+          src={restaurant.photo_url}
+          alt={restaurant.name}
+          className="w-20 h-20 object-cover mb-4 rounded-md animate__animated animate__fadeIn"
+        />
+        <ul>
+          {cartData
+            .filter((cartItem) => cartItem.restaurant_id === restaurant._id)
+            .flatMap((cartItem) =>
+              cartItem.cartItems.map((item, index) => (
+                
+                <li
+                  key={index}
+                  className="flex items-center justify-between border-b border-gray-300 py-2 transition duration-300 ease-in-out hover:bg-gray-100"
+                >
+                
+                  <div className="text-gray-700">
                     {item.name} - ${item.price}
-                   <button onClick={() => handleDeleteItem(cartItem._id, item.itemId)}>
-                      Delete
-                    </button> 
-                  </li>
-                ))
-              )}
-          </ul>
-        </div>
-      ))}
-  </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                   <button
+                  onClick={() => handleDeleteItem(cartItem._id, item.itemId)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 ease-in-out"
+                >
+                  Delete
+                </button>
+
+                    {index === 0 && (
+                      <button
+                        onClick={() => handleDeleteRestaurant(cartItem._id)}
+                  className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 ease-in-out"
+                      >
+                        Delete Restaurant
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))
+            )}
+        </ul>
+      </div>
+    ))}
+</div>
+
+
 );
 
 }
