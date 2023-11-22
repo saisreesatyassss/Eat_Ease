@@ -5,7 +5,8 @@ const { MongoClient } = require('mongodb');
 const multer = require('multer');
 
 const uri = "mongodb+srv://admin:wRbgDRMiE3dPAAWG@cluster0.7pvsfld.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const { ObjectId } = require('mongodb');
 
 let database; // Define database variable
@@ -25,11 +26,11 @@ async function connectToMongoDB() {
 }
 
 // Use the async function to connect before starting the server
-connectToMongoDB().then(() => {
-  app.listen(2000, () => {
-    console.log('Server listening on port 2000');
-  });
-});
+// connectToMongoDB().then(() => {
+//   app.listen(2000, () => {
+//     console.log('Server listening on port 2000');
+//   });
+// });
 
 // Handle GET request to fetch data from the "restaurant" collection
 // Handle GET request to fetch data from the "restaurant" collection
@@ -612,4 +613,10 @@ app.delete('/api/eat_ease/eatclips/:id', async (req, res) => {
     console.error('Error deleting data from MongoDB:', error);
     res.status(500).send('Internal Server Error');
   }
+});
+// Use the async function to connect before starting the server
+connectToMongoDB().then(() => {
+  app.listen(2000, () => {
+    console.log('Server listening on port 2000');
+  });
 });
