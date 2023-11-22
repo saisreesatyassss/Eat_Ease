@@ -616,7 +616,7 @@ app.delete('/api/eat_ease/eatclips/:id', async (req, res) => {
 });
 // Use the async function to connect before starting the server
 connectToMongoDB().then(() => {
-  app.listen(2000, () => {
+  app.listen(5000, () => {
     console.log('Server listening on port 2000');
   });
 });
